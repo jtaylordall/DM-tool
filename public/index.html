@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+  <title>Dungeon Master's Tool</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-info navbar-fixed">
+    <li class="alpha" href="#">
+      <img src="dnd_logo.jpg" alt="dnd_logo" class="d-inline-block align-center pull-left mr-md-2" height="50em">
+      Dungeon Master's Tool
+    </li>
+    <h1 class="pull-left"></h1>
+  </nav>
+
+  <div id="app">
+
+    <br>
+    <!--Add New Character-->
+    <div class="col-sm-12">
+      <h3>Add New Character</h3>
+      <form @submit.prevent="addItem">
+        <div class="form-inline">
+          <input class="form-control form-control-sm form-inline mr-md-2" type="" v-model="addedName" placeholder="Name">
+          <select v-model="addedRace" class="form-control form-control-sm form-inline mr-md-2">
+            <option>Race</option>
+            <option>Dragonborn</option>
+            <option>Dwarf</option>
+            <option>Elf</option>
+            <option>Gnome</option>
+            <option>Half-Elf</option>
+            <option>Halfling</option>
+            <option>Half-Orc</option>
+            <option>Human</option>
+            <option>Tiefling</option>
+            <option>Homebrew</option>
+            <option>Other</option>
+          </select>
+          <select v-model="addedClass" class="form-control form-control-sm form-inline mr-md-2">
+            <option>Class</option>
+            <option>Barbarian</option>
+            <option>Bard</option>
+            <option>Cleric</option>
+            <option>Druid</option>
+            <option>Fighter</option>
+            <option>Monk</option>
+            <option>Paladin</option>
+            <option>Ranger</option>
+            <option>Rogue</option>
+            <option>Sorcerer</option>
+            <option>Warlock</option>
+            <option>Wizard</option>
+            <option>Homebrew</option>
+            <option>Other</option>
+          </select>
+          <select v-model="addedType" class="form-control form-control-sm form-inline mr-md-2">
+            <option>Type</option>
+            <option>Player</option>
+            <option>Party NPC</option>
+            <option>Non-Party NPC</option>
+            <option>Enemy</option>
+            <option>Other</option>
+          </select>
+          <input class="form-control form-control-sm form-inline mr-md-2" type="text" v-model="addedLevel" placeholder="Level">
+          <input class="form-control form-control-sm form-inline mr-md-2" type="text" v-model="addedMaxHP" placeholder="Max Hit Points">
+          <button class="btn btn-sm btn-outline-info my-2 my-sm-0" type="submit">Add</button>
+        </div>
+      </form>
+    </div>
+
+    <!--Show and Sort Buttons-->
+    <div class="controls row">
+      <div class="col-4">
+        <h3>Show:</h3>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="showAll">All</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="showPlayers">Players</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="showNPCs">NPCs</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="showParty">Party</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="showEnemies">Enemies</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="showOther">Other</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="showSideQuest">SideQuest</button>
+      </div>
+      <div class="col-3">
+        <h3>Sort By:</h3>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="sortName">Name</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="sortInitiative">Initiative</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="sortLevel">Level</button>
+        <button class="btn btn-sm btn-outline-info my-sm-0" v-on:click="sortType">Type</button>
+      </div>
+      <div class="col-1">
+        <h3>Battles:</h3>
+        <select v-model="showBattle" class="custom-select custom-select-sm" data-style="btn-info">
+          <option>By Battle</option>
+          <option>Battle 1</option>
+          <option>Battle 2</option>
+          <option>Battle 3</option>
+          <option>Battle 4</option>
+          <option>Battle 5</option>
+        </select>
+      </div>
+
+    </div>
+
+    <br>
+
+    <ul>
+      <li class="lista"v-for="item in filteredItems">
+        <br>
+        <div class="row listo bg-info">
+          <div class="col-sm-11">
+            <div class="row form-inline">
+
+              <!--Name and SideQuest Button-->
+              <div class="col-3">
+                <p class="showname">{{ item.name }}</p>
+                <div class="form-inline">
+                  Level: &nbsp <strong>{{item.level}}</strong>
+                  &nbsp&nbsp&nbsp
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <button v-on:click="decrementLevel(item)" class="btn btn-outline-light">-</button>
+                    <button v-on:click="incrementLevel(item)" class="btn btn-outline-light">+</button>
+                  </div>
+                </div>
+                <br>
+                <label class="container1" >
+                  <input type="checkbox" v-model="item.sidequest" @click="marksidequest(item)"/>
+                  <span class="checkmark"></span>
+                </label> &nbsp &nbsp &nbsp &nbsp SideQuest
+              </div>
+
+              <!--Initiative, HP, and AC-->
+              <div class="col-2">
+                <div class="bb"></div>
+                Initiative: &nbsp
+                <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.initiative"></input><br>
+                <div class="bb"></div>
+                HP: &nbsp
+                <input class="form-control aa form-inline form-control-info bg-info col-sm-3 pl-2" type="text"  v-on:keyup.enter="editItem(item)" v-model="item.hp"></input>
+                <strong>&nbsp/&nbsp</strong>
+                <input class="form-control aa form-inline form-control-info bg-info col-sm-3 pl-2" type="text"  v-on:keyup.enter="editItem(item)" v-model="item.maxhp" placeholder="max"></input>
+                <br>
+                <div class="bb"></div>
+                AC: &nbsp
+                <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.ac"></input><br>
+              </div>
+
+              <!--Class, Type, and Race-->
+              <div class="col-2">
+                Type: &nbsp<strong>{{item.type}}</strong>
+                <div class="bb"></div>
+                Class: &nbsp<strong>{{item.class}}</strong><br>
+                <div class="bb"></div>
+                Race: &nbsp<strong>{{item.race}}</strong>
+                <div class="bb"></div>
+                Proficiency Bonus: &nbsp<strong>{{item.profbonus}}</strong>
+              </div>
+
+              <!--Condition and Battle Selectors-->
+              <div class="col">
+                <div class="row">
+                  <div class="col-6">
+                    Condition:<br>
+                    <select v-model="item.condition" @change="editItem(item)" class="form-control bg-info form-control-md aa mr-md-2">
+                      <option>Normal</option>
+                      <option>Blinded</option>
+                      <option>Charmed</option>
+                      <option>Deafened</option>
+                      <option>Exhaustion</option>
+                      <option>Fatigued</option>
+                      <option>Frightened</option>
+                      <option>Grappled</option>
+                      <option>Incapacitated</option>
+                      <option>Invisible</option>
+                      <option>Petrified</option>
+                      <option>Paralyzed</option>
+                      <option>Poisoned</option>
+                      <option>Prone</option>
+                      <option>Restrained</option>
+                      <option>Stunned</option>
+                      <option>Unconscious</option>
+                    </select>
+                    <div class="bb">
+
+                    </div>
+                    Battle: &nbsp
+                    <br>
+                    <select v-model="item.battle" @change="editItem(item)" class="form-control bg-info form-control-md aa mr-md-2">
+                      <option>All Battles</option>
+                      <option>No Battles</option>
+                      <option>Battle 1</option>
+                      <option>Battle 2</option>
+                      <option>Battle 3</option>
+                      <option>Battle 4</option>
+                      <option>Battle 5</option>
+                    </select>
+
+                  </div>
+                  <div class="col-6">
+                    Comments:<br>
+                    <textarea class="form-control aa form-control bg-info" v-model="item.comments" rows="4" style="color:white;"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div v-show="item.type != 'Player'">
+
+              <hr>
+              <div class="row form-inline">
+
+                <div class="col-2">
+                  Strength: &nbsp
+                  <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.strength"></input><br>
+                  (<strong>{{ item.strength_modifier }}</strong>)
+                </div>
+
+                <div class="col-2">
+                  Dexterity: &nbsp
+                  <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.dexterity"></input><br>
+                  (<strong>{{ item.dexterity_modifier }}</strong>)
+                </div>
+
+                <div class="col-2">
+                  Constitution: &nbsp
+                  <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.constitution"></input><br>
+                  (<strong>{{ item.constitution_modifier }}</strong>)
+                </div>
+
+                <div class="col-2">
+                  Intelligence: &nbsp
+                  <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.intelligence"></input><br>
+                  (<strong>{{ item.intelligence_modifier }}</strong>)
+                </div>
+
+                <div class="col-2">
+                  Wisdom: &nbsp
+                  <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.wisdom"></input><br>
+                  (<strong>{{ item.wisdom_modifier }}</strong>)
+                </div>
+
+                <div class="col-2">
+                  Charisma: &nbsp
+                  <input class="form-control aa form-inline form-control-info bg-info col-sm-3" type="text" v-on:keyup.enter="editItem(item)" v-model="item.charisma"></input><br>
+                  (<strong>{{ item.charisma_modifier }}</strong>)
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--Save and Delete Buttons-->
+          <div class="col-1 float-right">
+            <form @submit.prevent="editItem(item)">
+              <button class="btn btn-outline-light delete" type="submit">Save</button>
+            </form>
+            <br><br>
+            <button class="btn btn-outline-light delete" v-on:click="deleteItem(item)">Delete</button>
+            <br><br>
+            <button class="btn btn-outline-light delete" v-on:click="duplicateItem(item)">Duplicate</button>
+          </div>
+
+        </div>
+      </li>
+    </ul>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.2/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js" integrity="sha256-lrZTgsdM1iVdRigETFOU8u8/BmLX1ysQ8bzrULbuVFU=" crossorigin="anonymous"></script>
+  <script src="/script.js"></script>
+</body>
+
+</html>
