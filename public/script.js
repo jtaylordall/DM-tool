@@ -117,14 +117,14 @@ var app = new Vue({
           intelligence: 0,
           wisdom: 0,
           charisma: 0,
-          strength_modifier: '+0',
-          dexterity_modifier: '+0',
-          constitution_modifier: '+0',
-          intelligence_modifier: '+0',
-          wisdom_modifier: '+0',
-          charisma_modifier: '+0',
+          strength_modifier: '--',
+          dexterity_modifier: '--',
+          constitution_modifier: '--',
+          intelligence_modifier: '--',
+          wisdom_modifier: '--',
+          charisma_modifier: '--',
           battle: 'All Battles',
-          level: this.addedLevel,
+          level: Number(this.addedLevel),
           profbonus: profbonus,
         });
         this.addedName = '';
@@ -337,8 +337,10 @@ var app = new Vue({
 
 
     incrementLevel(item){
-      if(item.level < 20){
-        item.level += 1;
+      var itemlevel = Number(item.level);
+      if(itemlevel < 20){
+        itemlevel += 1;
+        console.log(itemlevel);
       }
       let profbonus = this.calculateProfBonus(item.level);
       try {
@@ -367,7 +369,7 @@ var app = new Vue({
           wisdom_modifier: item.wisdom_modifier,
           charisma_modifier: item.charisma_modifier,
           battle: item.battle,
-          level:item.level,
+          level:itemlevel,
           profbonus: profbonus,
         });
         this.getItems();
@@ -377,8 +379,11 @@ var app = new Vue({
       }
     },
     decrementLevel(item){
-      if(item.level > 1){
-        item.level -= 1;
+      var itemlevel = Number(item.level);
+      console.log(itemlevel);
+      if(itemlevel > 1){
+        itemlevel -= 1;
+        console.log(itemlevel);
       }
       let profbonus = this.calculateProfBonus(item.level);
       try {
@@ -407,7 +412,7 @@ var app = new Vue({
           wisdom_modifier: item.wisdom_modifier,
           charisma_modifier: item.charisma_modifier,
           battle: item.battle,
-          level:item.level,
+          level:itemlevel,
           profbonus: profbonus,
         });
         this.getItems();
@@ -417,23 +422,27 @@ var app = new Vue({
       }
     },
 
-    calculateModifier(stat){
-      let modifier = Math.floor((stat - 10)/2);
-      if (modifier >= 0) {
-        modifier = '+' + modifier;
+    calculateModifier(instat){
+      var stat = Number(instat);
+      var modifier = Math.floor((stat - 10)/2);
+      console.log(modifier);
+      let modifierout;
+      if (modifier >= 10) {
+        modifierout = '+' + modifier;
       }
-      else if(stat < 0){
-        modifier = modifier;
+      else if (stat === 0) {
+        return '--';
       }
-      else if (stat == 0) {
-        return '+0';
+      else if(stat < 10){
+        modifierout = String(modifier);
       }
       else{
         return '+0';
       }
-      return modifier;
+      return modifierout;
     },
-    calculateProfBonus(level){
+    calculateProfBonus(inlevel){
+      var level = Number(inlevel);
       let profbonus;
       if(level < 5){
         profbonus = "+2";

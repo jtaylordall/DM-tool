@@ -1,7 +1,7 @@
 body {
   font-family: 'Arvo';
   font-size: 1.1em;
-  padding: 20px 100px 0px 100px;
+  padding: 1.6em  8.3em 8.3em;
   background: #f3f3f3;
 }
 
@@ -35,8 +35,8 @@ option{
 }
 
 .row {
-  padding-top:10px;
-  padding-left: 20px;
+  padding-top:.9em;
+  padding-left: 1.6em;
 }
 
 /* List */
@@ -51,12 +51,12 @@ button.delete{
 li:hover .delete {
   display: block;
   margin-top: auto;
-  margin-right: 20px;
+  margin-right: 1.6em;
   float: right;
 }
 
 label {
-  width: 400px;
+  width: 33em;
 }
 /* Form */
 
@@ -75,11 +75,11 @@ button {
 
 /* Controls */
 .controls {
-  margin-top: 20px;
+  margin-top: 1.6em;
 }
 
 li {
-    padding: 20px;
+    padding: 1.6em;
     display: block;
 }
 
@@ -90,12 +90,12 @@ li {
 .listo {
   color: white;
   width: auto;
-  min-height: 30px;
-  padding-bottom: 30px;
+  min-height: 2.5em;
+  padding-bottom: 2.5em;
   font-size: 1.2em;
   display: flex;
   align-items: center;
-  border-radius: 6px;
+  border-radius: .5em;
   flex: auto;
 
   display: block;
