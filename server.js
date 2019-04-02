@@ -16,7 +16,7 @@ app.use(express.static('public'));
 let items = [];
 let id = 0;
 
-app.post('/api/items', (req, res) => {
+app.post('/api2/items', (req, res) => {
   id = id + 1;
   let item = {
     id: id,
@@ -52,11 +52,11 @@ app.post('/api/items', (req, res) => {
   res.send(item);
 });
 
-app.get('/api/items', (req, res) => {
+app.get('/api2/items', (req, res) => {
   res.send(items);
 });
 
-app.put('/api/items/:id', (req, res) => {
+app.put('/api2/items/:id', (req, res) => {
   let id = parseInt(req.params.id);
   let itemsMap = items.map(item => {
     return item.id;
@@ -97,7 +97,7 @@ app.put('/api/items/:id', (req, res) => {
   res.send(item);
 });
 
-app.delete('/api/items/:id', (req, res) => {
+app.delete('/api2/items/:id', (req, res) => {
   let id = parseInt(req.params.id);
   let removeIndex = items.map(item => {
       return item.id;
@@ -112,4 +112,4 @@ app.delete('/api/items/:id', (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(3000, () => console.log('Server listening on port 3000!'));
+app.listen(3001, () => console.log('Server listening on port 3001!'));

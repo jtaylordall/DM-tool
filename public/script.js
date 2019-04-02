@@ -99,7 +99,7 @@ var app = new Vue({
       }
       let profbonus = this.calculateProfBonus(this.addedLevel);
       try {
-        const response = await axios.post("/api/items", {
+        const response = await axios.post("/api2/items", {
           name: this.addedName,
           type: this.addedType,
           class: this.addedClass,
@@ -141,7 +141,7 @@ var app = new Vue({
     },
     async deleteItem(item) {
       try {
-        const response = await axios.delete("/api/items/" + item.id);
+        const response = await axios.delete("/api2/items/" + item.id);
         console.log("deleted " + item.name);
         this.getItems();
       } catch (error) {
@@ -150,7 +150,7 @@ var app = new Vue({
     },
     async marksidequest(item){
       try {
-        const response = axios.put("/api/items/" + item.id, {
+        const response = axios.put("/api2/items/" + item.id, {
           name: item.name,
           type: item.type,
           class: item.class,
@@ -192,7 +192,7 @@ var app = new Vue({
       let charisma_modifier = this.calculateModifier(item.charisma);
 
       try {
-        const response = axios.put("/api/items/" + item.id, {
+        const response = axios.put("/api2/items/" + item.id, {
           name: item.name,
           type: item.type,
           class: item.class,
@@ -228,7 +228,7 @@ var app = new Vue({
     },
     async duplicateItem(item) {
       try {
-        const response = await axios.post("/api/items", {
+        const response = await axios.post("/api2/items", {
           name: item.name,
           type: item.type,
           class: item.class,
@@ -265,7 +265,7 @@ var app = new Vue({
 
     async getItems() {
       try {
-        const response = await axios.get("/api/items");
+        const response = await axios.get("/api2/items");
         this.items = response.data;
       } catch (error) {
         console.log(error);
@@ -342,9 +342,9 @@ var app = new Vue({
         itemlevel += 1;
         console.log(itemlevel);
       }
-      let profbonus = this.calculateProfBonus(item.level);
+      let profbonus = this.calculateProfBonus(itemlevel);
       try {
-        const response = axios.put("/api/items/" + item.id, {
+        const response = axios.put("/api2/items/" + item.id, {
           name: item.name,
           type: item.type,
           class: item.class,
@@ -385,9 +385,9 @@ var app = new Vue({
         itemlevel -= 1;
         console.log(itemlevel);
       }
-      let profbonus = this.calculateProfBonus(item.level);
+      let profbonus = this.calculateProfBonus(itemlevel);
       try {
-        const response = axios.put("/api/items/" + item.id, {
+        const response = axios.put("/api2/items/" + item.id, {
           name: item.name,
           type: item.type,
           class: item.class,
@@ -425,9 +425,8 @@ var app = new Vue({
     calculateModifier(instat){
       var stat = Number(instat);
       var modifier = Math.floor((stat - 10)/2);
-      console.log(modifier);
       let modifierout;
-      if (modifier >= 10) {
+      if (stat >= 10) {
         modifierout = '+' + modifier;
       }
       else if (stat === 0) {
@@ -444,16 +443,16 @@ var app = new Vue({
     calculateProfBonus(inlevel){
       var level = Number(inlevel);
       let profbonus;
-      if(level < 5){
+      if(level <= 4){
         profbonus = "+2";
       }
-      else if(level < 9){
+      else if(level >= 5 && level <= 8){
         profbonus = "+3";
       }
-      else if(level < 13){
+      else if(level >= 9 && level <= 12){
         profbonus = "+4";
       }
-      else if(level < 17){
+      else if(level >= 13 && level < 17){
         profbonus = "+5";
       }
       else{
